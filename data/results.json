@@ -1,0 +1,43 @@
+{
+  "signals": [
+    {
+      "market": "BTCUSDT",
+      "direction": "BUY",
+      "entry": 63693.93,
+      "outcome": "LOSS",
+      "profit_pct": -4.191969313245389,
+      "date": "2026-06-06"
+    },
+    {
+      "market": "ETHUSDT",
+      "direction": "SELL",
+      "entry": 1767.04,
+      "outcome": "WIN_TP2",
+      "profit_pct": 11.042194856935888,
+      "date": "2026-06-06"
+    },
+    {
+      "market": "SOLUSDT",
+      "direction": "SELL",
+      "entry": 68.64,
+      "outcome": "WIN_TP2",
+      "profit_pct": 8.304195804195809,
+      "date": "2026-06-06"
+    },
+    {
+      "market": "XAUUSD",
+      "direction": "SELL",
+      "entry": 4499.0,
+      "outcome": "WIN_TP2",
+      "profit_pct": 2.9717758460213384,
+      "date": "2026-06-06"
+    }
+  ],
+  "stats": {
+    "total": 4,
+    "wins": 3,
+    "losses": 1,
+    "winrate": 75.0
+  },
+  "updated": "2026-06-06T12:58:49.521288+00:00"
+}
