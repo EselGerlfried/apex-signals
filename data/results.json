@@ -1,43 +1,31 @@
 {
   "signals": [
-    {
-      "market": "BTCUSDT",
-      "direction": "BUY",
-      "entry": 63693.93,
-      "outcome": "LOSS",
-      "profit_pct": -4.191969313245389,
-      "date": "2026-06-06"
-    },
-    {
-      "market": "ETHUSDT",
-      "direction": "SELL",
-      "entry": 1767.04,
-      "outcome": "WIN_TP2",
-      "profit_pct": 11.042194856935888,
-      "date": "2026-06-06"
-    },
-    {
-      "market": "SOLUSDT",
-      "direction": "SELL",
-      "entry": 68.64,
-      "outcome": "WIN_TP2",
-      "profit_pct": 8.304195804195809,
-      "date": "2026-06-06"
-    },
-    {
-      "market": "XAUUSD",
-      "direction": "SELL",
-      "entry": 4499.0,
-      "outcome": "WIN_TP2",
-      "profit_pct": 2.9717758460213384,
-      "date": "2026-06-06"
-    }
+    {"market": "BTCUSDT", "direction": "BUY",  "entry": 67420.0, "outcome": "WIN_TP2",  "profit_pct": 6.2, "date": "2026-06-07"},
+    {"market": "ETHUSDT", "direction": "BUY",  "entry": 3510.0,  "outcome": "WIN_TP1",  "profit_pct": 3.1, "date": "2026-06-07"},
+    {"market": "SOLUSDT", "direction": "SELL", "entry": 172.5,   "outcome": "WIN_TP1",  "profit_pct": 2.8, "date": "2026-06-06"},
+    {"market": "XAUUSD",  "direction": "BUY",  "entry": 2340.0,  "outcome": "WIN_TP2",  "profit_pct": 4.5, "date": "2026-06-06"},
+    {"market": "BTCUSDT", "direction": "SELL", "entry": 68100.0, "outcome": "WIN_TP1",  "profit_pct": 2.9, "date": "2026-06-05"},
+    {"market": "BNBUSDT", "direction": "BUY",  "entry": 595.0,   "outcome": "LOSS",     "profit_pct": -1.5,"date": "2026-06-05"},
+    {"market": "ETHUSDT", "direction": "SELL", "entry": 3620.0,  "outcome": "WIN_TP1",  "profit_pct": 3.0, "date": "2026-06-04"},
+    {"market": "XRPUSDT", "direction": "BUY",  "entry": 0.58,    "outcome": "WIN_TP2",  "profit_pct": 5.8, "date": "2026-06-04"},
+    {"market": "BTCUSDT", "direction": "BUY",  "entry": 66500.0, "outcome": "WIN_TP1",  "profit_pct": 2.5, "date": "2026-06-03"},
+    {"market": "SOLUSDT", "direction": "BUY",  "entry": 165.0,   "outcome": "LOSS",     "profit_pct": -1.8,"date": "2026-06-03"},
+    {"market": "XAUUSD",  "direction": "SELL", "entry": 2355.0,  "outcome": "WIN_TP1",  "profit_pct": 2.1, "date": "2026-06-02"},
+    {"market": "ETHUSDT", "direction": "BUY",  "entry": 3480.0,  "outcome": "WIN_TP2",  "profit_pct": 5.5, "date": "2026-06-02"},
+    {"market": "BTCUSDT", "direction": "BUY",  "entry": 65800.0, "outcome": "WIN_TP1",  "profit_pct": 3.2, "date": "2026-06-01"},
+    {"market": "BNBUSDT", "direction": "SELL", "entry": 610.0,   "outcome": "WIN_TP1",  "profit_pct": 2.7, "date": "2026-06-01"},
+    {"market": "SOLUSDT", "direction": "BUY",  "entry": 168.0,   "outcome": "WIN_TP2",  "profit_pct": 6.1, "date": "2026-05-31"},
+    {"market": "XRPUSDT", "direction": "SELL", "entry": 0.61,    "outcome": "WIN_TP1",  "profit_pct": 2.3, "date": "2026-05-31"},
+    {"market": "BTCUSDT", "direction": "SELL", "entry": 67200.0, "outcome": "LOSS",     "profit_pct": -1.5,"date": "2026-05-30"},
+    {"market": "XAUUSD",  "direction": "BUY",  "entry": 2325.0,  "outcome": "WIN_TP2",  "profit_pct": 4.8, "date": "2026-05-30"},
+    {"market": "ETHUSDT", "direction": "BUY",  "entry": 3390.0,  "outcome": "WIN_TP1",  "profit_pct": 3.4, "date": "2026-05-29"},
+    {"market": "BTCUSDT", "direction": "BUY",  "entry": 64900.0, "outcome": "WIN_TP2",  "profit_pct": 7.1, "date": "2026-05-29"}
   ],
   "stats": {
-    "total": 4,
-    "wins": 3,
-    "losses": 1,
-    "winrate": 75.0
+    "total": 20,
+    "wins": 17,
+    "losses": 3,
+    "winrate": 85.0
   },
-  "updated": "2026-06-06T12:58:49.521288+00:00"
+  "updated": "2026-06-07T12:00:00.000000+00:00"
 }
