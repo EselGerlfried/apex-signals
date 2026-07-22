@@ -441,4 +441,58 @@
     reading = true; readAllBtn.textContent = "⏹ Vorlesen stoppen";
     readSeq(list, 0);
   });
+
+  /* ============================================================
+     ROTIERENDES WORT im Hero
+     ============================================================ */
+  var rot = document.getElementById("rot");
+  if (rot && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    var words = ["klimaneutral", "sauberer", "unabhängiger", "stärker", "emissionsarm"];
+    var ri = 0;
+    setInterval(function () {
+      ri = (ri + 1) % words.length;
+      rot.textContent = words[ri];
+      rot.classList.remove("swap"); void rot.offsetWidth; rot.classList.add("swap");
+    }, 2200);
+  }
+
+  /* ============================================================
+     INTERAKTIVER "ZUKUNFTS-ANTRIEB"-BUILDER
+     ============================================================ */
+  var fuels = {
+    efuel: {
+      icon: "🌱", name: "E-Fuel-Verbrenner", sub: "Synthetischer Kraftstoff aus CO₂ + Ökostrom",
+      stats: [["CO₂", "≈ klimaneutral"], ["Sound", "🔊🔊🔊 voll"], ["Tanken", "~3 Min"], ["Reichweite", "700–1000 km"]],
+      note: "💡 Läuft in jedem heutigen Verbrenner — kein neues Auto nötig."
+    },
+    h2: {
+      icon: "💧", name: "Wasserstoff-Verbrenner", sub: "Verbrennt Wasserstoff statt Benzin",
+      stats: [["CO₂", "fast nur Wasser"], ["Sound", "🔊🔊 kräftig"], ["Tanken", "~5 Min"], ["Reichweite", "500–700 km"]],
+      note: "💡 Aus dem Auspuff kommt fast nur Wasserdampf."
+    },
+    hybrid: {
+      icon: "⚡", name: "Hybrid-Verbrenner", sub: "Verbrenner + Elektro-Boost",
+      stats: [["CO₂", "stark reduziert"], ["Sound", "🔊🔊 auf Abruf"], ["Tanken", "~3 Min"], ["Reichweite", "900+ km"]],
+      note: "💡 Der E-Motor hilft beim Anfahren, der Verbrenner auf langer Strecke."
+    }
+  };
+  var builderResult = document.getElementById("builderResult");
+  var choices = document.querySelectorAll(".choice");
+  function esc(s) { return String(s).replace(/[&<>]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]; }); }
+  function renderFuel(key) {
+    var f = fuels[key]; if (!f || !builderResult) return;
+    var html = '<div class="br-head"><span class="br-icon">' + f.icon + '</span><div><h3>' + esc(f.name) + '</h3><p>' + esc(f.sub) + '</p></div></div><div class="br-stats">';
+    f.stats.forEach(function (s) { html += '<div class="br-stat"><span>' + esc(s[0]) + '</span><b>' + esc(s[1]) + '</b></div>'; });
+    html += '</div><p class="br-note">' + esc(f.note) + '</p>';
+    builderResult.innerHTML = html;
+    builderResult.classList.remove("br-pop"); void builderResult.offsetWidth; builderResult.classList.add("br-pop");
+  }
+  choices.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      choices.forEach(function (b) { b.classList.remove("active"); b.setAttribute("aria-selected", "false"); });
+      btn.classList.add("active"); btn.setAttribute("aria-selected", "true");
+      renderFuel(btn.getAttribute("data-fuel"));
+    });
+  });
+  if (builderResult) renderFuel("efuel");
 })();
