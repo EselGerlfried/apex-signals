@@ -37,6 +37,7 @@
       <source src="assets/video/start.mp4" type="video/mp4">
     </video>
     <div class="video-fallback" id="heroFallback"></div>
+    <div class="embers" id="embers"></div>
   </div>
   <div class="hero__overlay"></div>
 
@@ -328,13 +329,121 @@
     </div>
 
     <div class="gallery reveal">
-      <div class="photo"><div class="ph-hint"><b>📷 Foto 1</b>assets/fotos/foto1.jpg</div></div>
-      <div class="photo"><div class="ph-hint"><b>📷 Foto 2</b>assets/fotos/foto2.jpg</div></div>
-      <div class="photo"><div class="ph-hint"><b>📷 Foto 3</b>assets/fotos/foto3.jpg</div></div>
-      <div class="photo"><div class="ph-hint"><b>📷 Foto 4</b>assets/fotos/foto4.jpg</div></div>
-      <div class="photo"><div class="ph-hint"><b>📷 Foto 5</b>assets/fotos/foto5.jpg</div></div>
-      <div class="photo"><div class="ph-hint"><b>📷 Foto 6</b>assets/fotos/foto6.jpg</div></div>
+
+      <!-- 1: Sportwagen mit drehenden Raedern + Speed-Lines -->
+      <div class="photo illus">
+        <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Sportwagen">
+          <defs><linearGradient id="skyA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#301a2a"/><stop offset="1" stop-color="#0a0a0d"/></linearGradient></defs>
+          <rect width="400" height="300" fill="url(#skyA)"/>
+          <circle cx="315" cy="80" r="70" fill="#ff5b1a" opacity=".22"/>
+          <rect y="215" width="400" height="85" fill="#141420"/>
+          <g stroke="#ff5b1a" stroke-width="5" stroke-linecap="round">
+            <line class="speed" x1="20" y1="150" x2="70" y2="150"/>
+            <line class="speed" x1="10" y1="175" x2="55" y2="175" style="animation-delay:.15s"/>
+            <line class="speed" x1="30" y1="130" x2="65" y2="130" style="animation-delay:.3s"/>
+          </g>
+          <path d="M70 215 L95 175 Q120 158 160 156 L235 156 Q275 156 300 178 L340 200 Q352 205 352 215 Z" fill="#ff2e2e"/>
+          <path d="M120 173 Q135 160 160 160 L215 160 L225 178 Z" fill="#12222e" opacity=".9"/>
+          <rect x="70" y="207" width="282" height="14" rx="6" fill="#c0142a"/>
+          <g class="wheel"><circle cx="135" cy="222" r="26" fill="#0c0c12" stroke="#3a3a4a" stroke-width="4"/><circle cx="135" cy="222" r="9" fill="#66697a"/><rect x="132" y="200" width="6" height="44" fill="#44445a"/><rect x="113" y="219" width="44" height="6" fill="#44445a"/></g>
+          <g class="wheel"><circle cx="290" cy="222" r="26" fill="#0c0c12" stroke="#3a3a4a" stroke-width="4"/><circle cx="290" cy="222" r="9" fill="#66697a"/><rect x="287" y="200" width="6" height="44" fill="#44445a"/><rect x="268" y="219" width="44" height="6" fill="#44445a"/></g>
+        </svg>
+        <div class="caption">Pure Power auf der Straße</div>
+      </div>
+
+      <!-- 2: V8-Motorblock -->
+      <div class="photo illus">
+        <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Motorblock">
+          <rect width="400" height="300" fill="#12121a"/>
+          <circle cx="200" cy="120" r="120" fill="#ff5b1a" opacity=".12"/>
+          <rect x="90" y="120" width="220" height="110" rx="12" fill="#2a2a38" stroke="#44445a" stroke-width="3"/>
+          <g fill="#1a1a24" stroke="#55586a" stroke-width="2">
+            <rect x="110" y="70" width="40" height="60" rx="6"/><rect x="160" y="70" width="40" height="60" rx="6"/>
+            <rect x="210" y="70" width="40" height="60" rx="6"/><rect x="260" y="70" width="40" height="60" rx="6"/>
+          </g>
+          <g fill="#ff5b1a" class="flicker"><circle cx="130" cy="70" r="7"/><circle cx="180" cy="70" r="7"/><circle cx="230" cy="70" r="7"/><circle cx="280" cy="70" r="7"/></g>
+          <rect x="100" y="230" width="200" height="20" rx="8" fill="#20202b"/>
+          <g stroke="#66697a" stroke-width="4"><line x1="120" y1="150" x2="120" y2="210"/><line x1="150" y1="150" x2="150" y2="210"/><line x1="250" y1="150" x2="250" y2="210"/><line x1="280" y1="150" x2="280" y2="210"/></g>
+        </svg>
+        <div class="caption">Der V8 — ein Meisterwerk aus Metall</div>
+      </div>
+
+      <!-- 3: Tankstelle — in 3 Minuten voll -->
+      <div class="photo illus">
+        <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Tankstelle">
+          <rect width="400" height="300" fill="#101018"/>
+          <rect y="235" width="400" height="65" fill="#181822"/>
+          <rect x="150" y="90" width="100" height="150" rx="10" fill="#2a2a38" stroke="#44445a" stroke-width="3"/>
+          <rect x="165" y="105" width="70" height="45" rx="6" fill="#ffb020"/>
+          <text x="200" y="135" text-anchor="middle" font-size="26" font-weight="900" fill="#1a0d05">3:00</text>
+          <rect x="172" y="165" width="56" height="10" rx="5" fill="#3a3a4a"/>
+          <rect x="172" y="182" width="40" height="10" rx="5" fill="#3a3a4a"/>
+          <path d="M250 130 q40 0 40 40 l0 40" fill="none" stroke="#ff5b1a" stroke-width="7" stroke-linecap="round"/>
+          <rect x="278" y="205" width="26" height="34" rx="6" fill="#ff2e2e"/>
+          <g class="smoke" fill="#ffd27a" opacity=".6"><circle cx="200" cy="90" r="10"/></g>
+        </svg>
+        <div class="caption">In 3 Minuten voll — und weiter!</div>
+      </div>
+
+      <!-- 4: Rennstrecke + Zielflagge -->
+      <div class="photo illus">
+        <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Rennstrecke">
+          <rect width="400" height="300" fill="#0e0e16"/>
+          <circle cx="80" cy="70" r="60" fill="#ff2e2e" opacity=".18"/>
+          <g stroke="#ff5b1a" stroke-width="5" stroke-linecap="round">
+            <line class="speed" x1="20" y1="120" x2="80" y2="120"/>
+            <line class="speed" x1="15" y1="150" x2="70" y2="150" style="animation-delay:.2s"/>
+          </g>
+          <path d="M70 210 L110 175 L250 172 Q290 172 315 195 L345 210 Z" fill="#ffb020"/>
+          <rect x="70" y="204" width="275" height="12" rx="6" fill="#d98a00"/>
+          <path d="M130 172 Q145 160 170 160 L215 160 L222 175 Z" fill="#12222e"/>
+          <text x="235" y="196" font-size="30" font-weight="900" fill="#1a0d05">1</text>
+          <g class="wheel"><circle cx="140" cy="216" r="22" fill="#0c0c12" stroke="#3a3a4a" stroke-width="4"/><rect x="137" y="198" width="6" height="36" fill="#44445a"/></g>
+          <g class="wheel"><circle cx="290" cy="216" r="22" fill="#0c0c12" stroke="#3a3a4a" stroke-width="4"/><rect x="287" y="198" width="6" height="36" fill="#44445a"/></g>
+          <g fill="#f4f4f8"><rect x="352" y="40" width="6" height="220"/></g>
+          <g><rect x="358" y="45" width="14" height="14" fill="#fff"/><rect x="372" y="45" width="14" height="14" fill="#111"/><rect x="358" y="59" width="14" height="14" fill="#111"/><rect x="372" y="59" width="14" height="14" fill="#fff"/></g>
+        </svg>
+        <div class="caption">Geboren für die Rennstrecke</div>
+      </div>
+
+      <!-- 5: Kolben in Bewegung -->
+      <div class="photo illus">
+        <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Kolben">
+          <rect width="400" height="300" fill="#12121a"/>
+          <rect x="150" y="40" width="100" height="220" rx="10" fill="#0c0c12" stroke="#3a3a4a" stroke-width="3"/>
+          <g class="piston-move">
+            <rect x="160" y="70" width="80" height="46" rx="6" fill="#c9ccd6"/>
+            <line x1="164" y1="84" x2="236" y2="84" stroke="#7a7d8a" stroke-width="3"/>
+            <line x1="164" y1="94" x2="236" y2="94" stroke="#7a7d8a" stroke-width="3"/>
+            <rect x="192" y="112" width="16" height="70" rx="6" fill="#8a8d9a"/>
+          </g>
+          <circle cx="200" cy="60" r="20" fill="#ff5b1a" class="flicker" opacity=".8"/>
+          <circle cx="200" cy="240" r="30" fill="#2a2a38" stroke="#44445a" stroke-width="3"/>
+        </svg>
+        <div class="caption">Hoch und runter — 25× pro Sekunde</div>
+      </div>
+
+      <!-- 6: Tacho / Drehzahlmesser -->
+      <div class="photo illus">
+        <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Drehzahlmesser">
+          <rect width="400" height="300" fill="#0e0e14"/>
+          <circle cx="200" cy="170" r="120" fill="#16161f" stroke="#2a2a38" stroke-width="4"/>
+          <path d="M110 240 A120 120 0 1 1 290 240" fill="none" stroke="#2a2a38" stroke-width="10" stroke-linecap="round"/>
+          <path d="M235 255 A120 120 0 0 1 290 240" fill="none" stroke="#ff2e2e" stroke-width="10" stroke-linecap="round"/>
+          <g fill="#a7a7b8" font-size="15" font-weight="700" text-anchor="middle">
+            <text x="95" y="200">0</text><text x="120" y="120">2</text><text x="200" y="80">4</text><text x="285" y="120">6</text><text x="305" y="200">8</text>
+          </g>
+          <rect class="needle" x="196" y="90" width="8" height="85" rx="4" fill="#ff5b1a"/>
+          <circle cx="200" cy="175" r="14" fill="#66697a"/>
+          <text x="200" y="230" text-anchor="middle" font-size="14" font-weight="700" fill="#a7a7b8">U/min × 1000</text>
+        </svg>
+        <div class="caption">Vollgas — der Sound geht mit!</div>
+      </div>
+
     </div>
+    <p style="color:var(--muted); font-size:.85rem; margin-top:14px; text-align:center">
+      Diese Bilder sind selbst gezeichnete Illustrationen. Ihr könnt sie durch <b>eure eigenen Fotos</b> ersetzen — einfach ins Verzeichnis <code>assets/fotos/</code> legen (siehe README).
+    </p>
 
     <div class="video-block reveal">
       <!--

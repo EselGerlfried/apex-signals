@@ -19,6 +19,21 @@
     if (e.target.tagName === "A") navLinks.classList.remove("open");
   });
 
+  /* ---------- Funken (Embers) im Hero ---------- */
+  var embers = document.getElementById("embers");
+  if (embers && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    for (var i = 0; i < 26; i++) {
+      var e = document.createElement("div");
+      e.className = "ember";
+      e.style.left = (Math.random() * 100) + "%";
+      e.style.animationDuration = (5 + Math.random() * 7) + "s";
+      e.style.animationDelay = (Math.random() * 7) + "s";
+      var s = (3 + Math.random() * 5);
+      e.style.width = s + "px"; e.style.height = s + "px";
+      embers.appendChild(e);
+    }
+  }
+
   /* ---------- Hero-Video anzeigen, falls vorhanden ---------- */
   var heroVideo = document.getElementById("heroVideo");
   var heroFallback = document.getElementById("heroFallback");
