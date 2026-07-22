@@ -210,6 +210,125 @@
 
   // Motor stoppen, wenn Seite in den Hintergrund geht
   document.addEventListener("visibilitychange", function () {
-    if (document.hidden) stopEngine();
+    if (document.hidden) { stopEngine(); if (window.speechSynthesis) window.speechSynthesis.cancel(); }
+  });
+
+  /* ============================================================
+     SCROLL-FORTSCHRITTSBALKEN
+     ============================================================ */
+  var progress = document.getElementById("progress");
+  window.addEventListener("scroll", function () {
+    var h = document.documentElement;
+    var sc = h.scrollTop || document.body.scrollTop;
+    var height = h.scrollHeight - h.clientHeight;
+    if (progress) progress.style.width = (height > 0 ? (sc / height) * 100 : 0) + "%";
+  });
+
+  /* ============================================================
+     ZURÜCK NACH OBEN
+     ============================================================ */
+  var toTop = document.getElementById("toTop");
+  window.addEventListener("scroll", function () {
+    if (toTop) toTop.classList.toggle("show", window.scrollY > 600);
+  });
+  if (toTop) toTop.addEventListener("click", function () {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  /* ============================================================
+     VIDEO-TON an/aus
+     ============================================================ */
+  var vsBtn = document.getElementById("videoSound");
+  if (vsBtn && heroVideo) {
+    vsBtn.addEventListener("click", function () {
+      heroVideo.muted = !heroVideo.muted;
+      if (!heroVideo.muted) {
+        heroVideo.volume = 1;
+        if (heroVideo.play) { var p = heroVideo.play(); if (p && p.catch) p.catch(function(){}); }
+        vsBtn.textContent = "🔊 Video-Ton aus";
+      } else {
+        vsBtn.textContent = "🔇 Video-Ton an";
+      }
+    });
+  }
+
+  /* ============================================================
+     VORLESE-STIMME (Text-to-Speech, Web Speech API)
+     ============================================================ */
+  var synth = window.speechSynthesis;
+  if (synth) { synth.getVoices(); synth.onvoiceschanged = function () { synth.getVoices(); }; }
+
+  function pickGermanVoice() {
+    if (!synth) return null;
+    var vs = synth.getVoices() || [];
+    var de = vs.filter(function (v) { return /de(-|_|$)/i.test(v.lang); });
+    return de[0] || vs[0] || null;
+  }
+  function speak(text, onend) {
+    if (!synth) { if (onend) onend(); return; }
+    synth.cancel();
+    var u = new SpeechSynthesisUtterance(text);
+    var v = pickGermanVoice(); if (v) u.voice = v;
+    u.lang = "de-DE"; u.rate = 1; u.pitch = 1;
+    u.onend = function () { if (onend) onend(); };
+    synth.speak(u);
+  }
+
+  var speakBtns = document.querySelectorAll(".speak-btn");
+  var currentBtn = null;
+  function clearSpeakUI() {
+    if (currentBtn) { currentBtn.classList.remove("speaking"); currentBtn.textContent = currentBtn._label; }
+    currentBtn = null;
+  }
+  speakBtns.forEach(function (btn) {
+    btn._label = btn.textContent;
+    btn.addEventListener("click", function () {
+      stopGuide();
+      if (currentBtn === btn) { if (synth) synth.cancel(); clearSpeakUI(); return; }
+      if (synth) synth.cancel(); clearSpeakUI();
+      if (!synth) { alert("Dein Browser kann leider nicht vorlesen. Auf iPad/iPhone in Safari klappt es am besten."); return; }
+      var text = btn.getAttribute("data-speak");
+      if (!text) {
+        var from = btn.getAttribute("data-speak-from");
+        var el = from && document.getElementById(from);
+        text = el ? el.textContent : "";
+      }
+      currentBtn = btn; btn.classList.add("speaking"); btn.textContent = "⏹ Stopp";
+      speak(text, function () { clearSpeakUI(); });
+    });
+  });
+
+  /* ============================================================
+     GUIDED 4-TAKT-PLAYER (Animation + Stimme)
+     ============================================================ */
+  var guideBtn = document.getElementById("guideBtn");
+  var guideLabel = guideBtn ? guideBtn.textContent : "";
+  var strokeEls = document.querySelectorAll("#funktion .stroke");
+  var guiding = false;
+
+  function stopGuide() {
+    if (!guiding) return;
+    guiding = false;
+    if (synth) synth.cancel();
+    strokeEls.forEach(function (s) { s.classList.remove("active-stroke"); });
+    if (guideBtn) guideBtn.textContent = guideLabel;
+  }
+  function runGuide(i) {
+    if (!guiding) return;
+    if (i >= strokeEls.length) { stopGuide(); return; }
+    strokeEls.forEach(function (s) { s.classList.remove("active-stroke"); });
+    var s = strokeEls[i];
+    s.classList.add("active-stroke");
+    if (s.scrollIntoView) s.scrollIntoView({ behavior: "smooth", block: "center" });
+    speak(s.getAttribute("data-say") || "", function () {
+      setTimeout(function () { runGuide(i + 1); }, 350);
+    });
+  }
+  if (guideBtn) guideBtn.addEventListener("click", function () {
+    if (guiding) { stopGuide(); return; }
+    if (!synth) { alert("Dein Browser kann leider nicht vorlesen. Auf iPad/iPhone in Safari klappt es am besten."); return; }
+    if (currentBtn) { synth.cancel(); clearSpeakUI(); }
+    guiding = true; guideBtn.textContent = "⏹ Stopp";
+    runGuide(0);
   });
 })();

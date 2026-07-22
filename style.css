@@ -409,3 +409,60 @@ table.compare .mid { color: var(--hot); font-weight: 800; }
   * { animation: none !important; scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; }
 }
+
+/* ============================================================
+   NEUE KOMPONENTEN (v2): Progress, Vorlesen, Timeline, Fotos
+   ============================================================ */
+
+/* Scroll-Fortschrittsbalken */
+.progress {
+  position: fixed; top: 0; left: 0; height: 4px; width: 0%;
+  z-index: 200; background: linear-gradient(90deg, var(--hot), var(--flame), var(--flame-2));
+  box-shadow: 0 0 12px rgba(255,91,26,.7); transition: width .1s linear;
+}
+
+/* Vorlese-Knöpfe */
+.speak-btn.speaking {
+  background: linear-gradient(135deg, var(--flame-2), var(--flame), var(--hot));
+  color: #1a0d05; border-color: transparent;
+}
+
+/* Echte Fotos in der Galerie */
+.photo { margin: 0; }
+.photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+.photo:hover img { transform: scale(1.08); }
+
+/* Timeline */
+.timeline { position: relative; max-width: 780px; margin: 0 auto; padding-left: 8px; }
+.timeline::before {
+  content: ""; position: absolute; left: 21px; top: 8px; bottom: 8px; width: 3px;
+  background: linear-gradient(180deg, var(--flame), rgba(255,91,26,.15));
+}
+.tl-item { position: relative; padding: 0 0 26px 60px; }
+.tl-dot {
+  position: absolute; left: 12px; top: 6px; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--flame); box-shadow: 0 0 0 5px rgba(255,91,26,.18); z-index: 1;
+}
+.tl-card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; transition: border-color .2s, transform .2s; }
+.tl-card:hover { border-color: var(--flame); transform: translateX(4px); }
+.tl-year { font-size: 1.4rem; font-weight: 900; color: var(--flame); line-height: 1; margin-bottom: 6px; }
+.tl-card h4 { font-size: 1.1rem; margin-bottom: 4px; }
+.tl-card p { color: var(--muted); font-size: .95rem; }
+
+/* Guided 4-Takt: aktiver Takt */
+.stroke.active-stroke {
+  border-color: var(--flame);
+  box-shadow: 0 0 0 2px var(--flame), 0 12px 30px rgba(255,91,26,.35);
+  transform: translateY(-6px);
+}
+.stroke { transition: transform .3s, box-shadow .3s, border-color .3s; }
+
+/* Zurück-nach-oben-Knopf */
+.to-top {
+  position: fixed; right: 18px; bottom: 18px; z-index: 90;
+  width: 50px; height: 50px; border-radius: 50%; border: none; cursor: pointer;
+  background: linear-gradient(135deg, var(--flame-2), var(--hot)); color: #1a0d05;
+  font-size: 1.3rem; font-weight: 900; box-shadow: var(--shadow);
+  opacity: 0; transform: translateY(20px) scale(.8); pointer-events: none; transition: .25s;
+}
+.to-top.show { opacity: 1; transform: none; pointer-events: auto; }
