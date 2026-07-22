@@ -34,6 +34,54 @@
     }
   }
 
+  /* ---------- Funken-Partikel (Canvas) im Hero — "krass" ---------- */
+  var sparkCanvas = document.getElementById("sparks");
+  if (sparkCanvas && sparkCanvas.getContext && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    var sctx = sparkCanvas.getContext("2d");
+    var SW, SH, sdpr = Math.min(window.devicePixelRatio || 1, 2), parts = [], rafSparks = null;
+    function sresize() {
+      SW = sparkCanvas.clientWidth; SH = sparkCanvas.clientHeight;
+      sparkCanvas.width = SW * sdpr; sparkCanvas.height = SH * sdpr;
+      sctx.setTransform(sdpr, 0, 0, sdpr, 0, 0);
+    }
+    function spawnSpark(seed) {
+      return {
+        x: Math.random() * SW,
+        y: seed ? Math.random() * SH : SH + 12,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: -(0.5 + Math.random() * 1.7),
+        r: 1 + Math.random() * 2.6,
+        life: 0, max: 110 + Math.random() * 140,
+        hue: 18 + Math.random() * 34
+      };
+    }
+    function initSparks() { parts = []; for (var s = 0; s < 110; s++) parts.push(spawnSpark(true)); }
+    function tickSparks() {
+      sctx.clearRect(0, 0, SW, SH);
+      sctx.globalCompositeOperation = "lighter";
+      for (var i = 0; i < parts.length; i++) {
+        var p = parts[i];
+        p.life++; p.x += p.vx; p.y += p.vy; p.vy -= 0.0016; p.vx += (Math.random() - 0.5) * 0.06;
+        var t = p.life / p.max, a = Math.sin(Math.min(t, 1) * Math.PI);
+        var g = sctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 4);
+        g.addColorStop(0, "rgba(255,225,160," + (a * 0.9) + ")");
+        g.addColorStop(0.4, "hsla(" + p.hue + ",100%,55%," + (a * 0.5) + ")");
+        g.addColorStop(1, "hsla(" + p.hue + ",100%,50%,0)");
+        sctx.fillStyle = g;
+        sctx.beginPath(); sctx.arc(p.x, p.y, p.r * 4, 0, 6.29); sctx.fill();
+        if (p.life >= p.max || p.y < -24) parts[i] = spawnSpark(false);
+      }
+      sctx.globalCompositeOperation = "source-over";
+      rafSparks = requestAnimationFrame(tickSparks);
+    }
+    sresize(); initSparks(); tickSparks();
+    window.addEventListener("resize", sresize);
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) { if (rafSparks) { cancelAnimationFrame(rafSparks); rafSparks = null; } }
+      else if (!rafSparks) { tickSparks(); }
+    });
+  }
+
   /* ---------- Hero-Video anzeigen, falls vorhanden ---------- */
   var heroVideo = document.getElementById("heroVideo");
   var heroFallback = document.getElementById("heroFallback");
@@ -245,9 +293,11 @@
       if (!heroVideo.muted) {
         heroVideo.volume = 1;
         if (heroVideo.play) { var p = heroVideo.play(); if (p && p.catch) p.catch(function(){}); }
-        vsBtn.textContent = "🔊 Video-Ton aus";
+        vsBtn.textContent = "🔇 Video-Ton aus";
+        vsBtn.style.animation = "none";
       } else {
-        vsBtn.textContent = "🔇 Video-Ton an";
+        vsBtn.textContent = "🔊 Video-Ton einschalten";
+        vsBtn.style.animation = "";
       }
     });
   }
