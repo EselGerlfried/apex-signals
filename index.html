@@ -55,6 +55,7 @@
         Motor starten
       </button>
       <button class="btn btn--flame" id="videoSound">🔊 Video-Ton einschalten</button>
+      <button class="btn btn--ghost" id="readAll">🗣️ Ganze Seite vorlesen</button>
       <a href="#aufbau" class="btn btn--ghost">Mehr erfahren ↓</a>
     </div>
   </div>
@@ -367,22 +368,16 @@
       Fotos: Unsplash (freie Nutzung). Ihr könnt sie jederzeit durch <b>eure eigenen Fotos</b> ersetzen — einfach in den Ordner <code>assets/fotos/</code> legen.
     </p>
 
+    <h3 style="text-align:center; margin-top:48px; font-size:clamp(1.4rem,3vw,2rem)">🎬 Unser Erklärvideo <span style="color:var(--muted); font-size:1rem; font-weight:600">(auf Play tippen — mit Ton!)</span></h3>
     <div class="video-block reveal">
-      <!--
-        ▶▶▶ ZWEITES VIDEO (z.B. Motor-Erklärung) ◀◀◀
-        Datei als assets/video/erklaerung.mp4 ablegen und das <video> aktivieren.
-      -->
-      <video controls playsinline poster="" style="display:none">
-        <source src="assets/video/erklaerung.mp4" type="video/mp4">
+      <video id="erklaervideo" controls playsinline preload="metadata" poster="assets/fotos/motor.jpg">
+        <source src="assets/video/start.mp4" type="video/mp4">
+        Dein Browser kann das Video leider nicht abspielen.
       </video>
-      <div class="video-placeholder">
-        <div>
-          <div class="big">🎬</div>
-          <b style="color:var(--text)">Platz für euer Erklär-Video</b>
-          <p>Datei ablegen unter <code>assets/video/erklaerung.mp4</code></p>
-        </div>
-      </div>
     </div>
+    <p style="color:var(--muted); font-size:.85rem; margin-top:12px; text-align:center">
+      Tipp: Auf dem iPad einmal auf ▶ tippen und die Lautstärke aufdrehen — dann hört ihr den Ton.
+    </p>
   </div>
 </section>
 

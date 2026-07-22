@@ -306,7 +306,14 @@
      VORLESE-STIMME (Text-to-Speech, Web Speech API)
      ============================================================ */
   var synth = window.speechSynthesis;
-  if (synth) { synth.getVoices(); synth.onvoiceschanged = function () { synth.getVoices(); }; }
+  var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  var resumeTimer = null;
+  if (synth) {
+    synth.getVoices();
+    synth.onvoiceschanged = function () { synth.getVoices(); };
+    // iPad/Chrome: Stimme beim ersten Antippen aufwecken
+    document.addEventListener("pointerdown", function () { try { synth.resume(); } catch (e) {} }, { once: true });
+  }
 
   function pickGermanVoice() {
     if (!synth) return null;
@@ -316,12 +323,22 @@
   }
   function speak(text, onend) {
     if (!synth) { if (onend) onend(); return; }
+    try { synth.resume(); } catch (e) {}
     synth.cancel();
     var u = new SpeechSynthesisUtterance(text);
     var v = pickGermanVoice(); if (v) u.voice = v;
-    u.lang = "de-DE"; u.rate = 1; u.pitch = 1;
-    u.onend = function () { if (onend) onend(); };
+    u.lang = "de-DE"; u.rate = 1; u.pitch = 1; u.volume = 1;
+    u.onend = function () { if (resumeTimer) { clearInterval(resumeTimer); resumeTimer = null; } if (onend) onend(); };
+    u.onerror = function () { if (resumeTimer) { clearInterval(resumeTimer); resumeTimer = null; } if (onend) onend(); };
     synth.speak(u);
+    // Chrome/Desktop: verhindert das automatische Stoppen nach ~15 Sekunden
+    if (!isIOS) {
+      if (resumeTimer) clearInterval(resumeTimer);
+      resumeTimer = setInterval(function () {
+        if (synth.speaking) { try { synth.pause(); synth.resume(); } catch (e) {} }
+        else { clearInterval(resumeTimer); resumeTimer = null; }
+      }, 9000);
+    }
   }
 
   var speakBtns = document.querySelectorAll(".speak-btn");
@@ -333,7 +350,7 @@
   speakBtns.forEach(function (btn) {
     btn._label = btn.textContent;
     btn.addEventListener("click", function () {
-      stopGuide();
+      stopGuide(); stopReadAll();
       if (currentBtn === btn) { if (synth) synth.cancel(); clearSpeakUI(); return; }
       if (synth) synth.cancel(); clearSpeakUI();
       if (!synth) { alert("Dein Browser kann leider nicht vorlesen. Auf iPad/iPhone in Safari klappt es am besten."); return; }
@@ -377,8 +394,51 @@
   if (guideBtn) guideBtn.addEventListener("click", function () {
     if (guiding) { stopGuide(); return; }
     if (!synth) { alert("Dein Browser kann leider nicht vorlesen. Auf iPad/iPhone in Safari klappt es am besten."); return; }
+    stopReadAll();
     if (currentBtn) { synth.cancel(); clearSpeakUI(); }
     guiding = true; guideBtn.textContent = "⏹ Stopp";
     runGuide(0);
+  });
+
+  /* ============================================================
+     GANZE SEITE VORLESEN (liest alle Abschnitte nacheinander)
+     ============================================================ */
+  var readAllBtn = document.getElementById("readAll");
+  var readAllLabel = readAllBtn ? readAllBtn.textContent : "";
+  var reading = false;
+
+  function readableText(el) {
+    if (el.hasAttribute("data-speak")) return el.getAttribute("data-speak");
+    if (el.hasAttribute("data-say")) return el.getAttribute("data-say");
+    if (el.hasAttribute("data-speak-from")) {
+      var e = document.getElementById(el.getAttribute("data-speak-from"));
+      return e ? e.textContent : "";
+    }
+    return "";
+  }
+  function stopReadAll() {
+    if (!reading) return;
+    reading = false;
+    if (synth) synth.cancel();
+    strokeEls.forEach(function (s) { s.classList.remove("active-stroke"); });
+    if (readAllBtn) readAllBtn.textContent = readAllLabel;
+  }
+  function readSeq(list, i) {
+    if (!reading) return;
+    if (i >= list.length) { stopReadAll(); return; }
+    var el = list[i];
+    strokeEls.forEach(function (s) { s.classList.remove("active-stroke"); });
+    if (el.classList && el.classList.contains("stroke")) el.classList.add("active-stroke");
+    if (el.scrollIntoView) el.scrollIntoView({ behavior: "smooth", block: "center" });
+    speak(readableText(el), function () { setTimeout(function () { readSeq(list, i + 1); }, 300); });
+  }
+  if (readAllBtn) readAllBtn.addEventListener("click", function () {
+    if (reading) { stopReadAll(); return; }
+    if (!synth) { alert("Dein Browser kann leider nicht vorlesen. Auf iPad/iPhone klappt es in Safari am besten. Bitte auch die Lautstärke aufdrehen und den Lautlos-Schalter ausschalten."); return; }
+    stopGuide(); if (currentBtn) { synth.cancel(); clearSpeakUI(); }
+    var list = Array.prototype.slice.call(document.querySelectorAll("[data-speak],[data-say],[data-speak-from]"));
+    if (!list.length) return;
+    reading = true; readAllBtn.textContent = "⏹ Vorlesen stoppen";
+    readSeq(list, 0);
   });
 })();
