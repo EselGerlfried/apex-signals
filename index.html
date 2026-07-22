@@ -7,7 +7,7 @@
 <meta name="description" content="Die Zukunft des Verbrennungsmotors: klimaneutral mit E-Fuels, Wasserstoff-Verbrenner und Hightech-Effizienz. Warum der Verbrenner eine große Zukunft hat — mit Fotos, Animationen und Vorlese-Stimme.">
 <meta name="theme-color" content="#0a0a0d">
 <link rel="stylesheet" href="style.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23ff2e2e'/><stop offset='1' stop-color='%23ffb020'/></linearGradient></defs><rect width='48' height='48' rx='12' fill='url(%23g)'/><rect x='17' y='9' width='14' height='12' rx='3' fill='%23fff'/><rect x='22' y='21' width='4' height='11' rx='2' fill='%23fff'/><circle cx='24' cy='37' r='5.4' stroke='%23fff' stroke-width='2.6' fill='none'/><circle cx='24' cy='32.4' r='1.9' fill='%233ddc84'/></svg>">
 </head>
 <body>
 
@@ -15,7 +15,19 @@
 
 <!-- ===================== NAVBAR ===================== -->
 <nav class="nav" id="nav">
-  <a href="#top" class="brand"><span class="logo">🔥</span> TEAM&nbsp;VERBRENNER</a>
+  <a href="#top" class="brand">
+    <span class="logo" aria-hidden="true">
+      <svg viewBox="0 0 48 48" width="22" height="22" fill="none">
+        <rect x="17" y="8.5" width="14" height="12.5" rx="3" fill="#fff"/>
+        <rect x="15.5" y="12.3" width="17" height="2" rx="1" fill="#b3300a"/>
+        <rect x="15.5" y="15.3" width="17" height="2" rx="1" fill="#b3300a"/>
+        <rect x="22" y="21" width="4" height="11" rx="2" fill="#fff"/>
+        <circle cx="24" cy="37" r="5.4" stroke="#fff" stroke-width="2.6"/>
+        <circle cx="24" cy="32.4" r="1.9" fill="#3ddc84"/>
+      </svg>
+    </span>
+    <span class="brand-name">TEAM&nbsp;VERBRENNER</span>
+  </a>
   <div class="links" id="navLinks">
     <a href="#zukunft">Zukunft</a>
     <a href="#aufbau">Aufbau</a>
@@ -47,8 +59,9 @@
       <span class="badge">💧 Wasserstoff-Motor</span>
       <span class="badge">📱 iPad-optimiert</span>
     </div>
-    <h1>Die <span class="flame-text">Zukunft</span><br>fährt weiter mit Verbrenner</h1>
-    <p class="lead">Klimaneutral mit E-Fuels, sauber mit Wasserstoff und schlauer denn je: Warum der Verbrennungsmotor noch lange nicht am Ende ist — sondern erst richtig loslegt. 🔥</p>
+    <h1>Der <span class="flame-text">Verbrenner</span><br>bleibt die Zukunft</h1>
+    <p class="rotator">Die Motorenart von morgen — weil er <span class="rot" id="rot">klimaneutral</span> wird</p>
+    <p class="lead">Mit E-Fuels und Wasserstoff fährt der Verbrennungsmotor sauber in die Zukunft. Hier erfährst du, warum er die Motorenart der Zukunft <b>bleibt</b>. 🔥</p>
     <div class="hero__cta">
       <button class="btn btn--flame" id="startEngine">
         <span class="sound-wave" id="wave"><span></span><span></span><span></span><span></span><span></span></span>
@@ -113,6 +126,28 @@
     <div class="future-banner reveal">
       <div class="fb-big"><span class="count" data-to="90">0</span>&nbsp;%</div>
       <div class="fb-text"><b>weniger CO₂</b> sind mit E-Fuels gegenüber normalem Benzin möglich — im selben Motor, an der gleichen Tankstelle.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true"></div>
+
+<!-- ===================== INTERAKTIVER BUILDER ===================== -->
+<section class="section section--alt" id="builder">
+  <div class="wrap">
+    <div class="section__head reveal">
+      <span class="kicker">Zum Selberbauen</span>
+      <h2>Bau dir deinen <span class="flame-text">Zukunfts-Antrieb</span></h2>
+      <p>Wähle einen sauberen Kraftstoff und sieh sofort, was der Verbrenner damit kann.</p>
+    </div>
+
+    <div class="builder reveal">
+      <div class="builder-choices" role="tablist" aria-label="Kraftstoff wählen">
+        <button class="choice active" data-fuel="efuel" role="tab" aria-selected="true"><span class="c-emo">🌱</span><span class="c-name">E-Fuel</span></button>
+        <button class="choice" data-fuel="h2" role="tab" aria-selected="false"><span class="c-emo">💧</span><span class="c-name">Wasserstoff</span></button>
+        <button class="choice" data-fuel="hybrid" role="tab" aria-selected="false"><span class="c-emo">⚡</span><span class="c-name">Hybrid</span></button>
+      </div>
+      <div class="builder-result" id="builderResult" aria-live="polite"><!-- per JS --></div>
     </div>
   </div>
 </section>

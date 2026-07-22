@@ -600,6 +600,66 @@ canvas#sparks {
 .future-banner .fb-text { color: var(--muted); font-size: 1.06rem; }
 @media (max-width: 560px) { .future-banner { flex-direction: column; text-align: center; gap: 12px; } }
 
+/* ============================================================
+   v4 — Logo, Rotator, interaktiver Builder, Politur
+   ============================================================ */
+
+/* Nav-Logo (SVG) & Markenname */
+.nav .brand .logo svg { display: block; }
+.nav .brand .brand-name { line-height: 1; }
+
+/* Animierte Unterstreichung der Nav-Links */
+.nav .links a { position: relative; }
+.nav .links a::after {
+  content: ""; position: absolute; left: 14px; right: 14px; bottom: 5px; height: 2px;
+  background: linear-gradient(90deg, var(--flame), var(--hot));
+  transform: scaleX(0); transform-origin: left; transition: transform .25s; border-radius: 2px;
+}
+.nav .links a:hover::after { transform: scaleX(1); }
+
+/* Rotierendes Wort im Hero */
+.rotator { font-size: clamp(1rem, 2.4vw, 1.35rem); font-weight: 800; color: #fff; margin-top: 12px; }
+.rotator .rot { color: var(--hot); display: inline-block; min-width: 9ch; text-shadow: 0 0 20px rgba(255,176,32,.6); }
+.rot.swap { animation: rotSwap .5s ease; }
+@keyframes rotSwap { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: none; } }
+
+/* Interaktiver Builder */
+.builder { display: grid; grid-template-columns: 280px 1fr; gap: 22px; align-items: stretch; }
+.builder-choices { display: flex; flex-direction: column; gap: 14px; }
+.choice {
+  display: flex; align-items: center; gap: 14px; padding: 18px 20px; cursor: pointer;
+  background: var(--card); border: 1px solid var(--line); border-radius: 16px; color: var(--text);
+  font-family: inherit; font-size: 1.1rem; font-weight: 800; text-align: left; transition: transform .2s, border-color .2s, background .2s, box-shadow .2s;
+}
+.choice .c-emo { font-size: 1.6rem; }
+.choice:hover { border-color: var(--flame); transform: translateX(4px); }
+.choice.active {
+  border-color: transparent; color: #1a0d05;
+  background: linear-gradient(135deg, var(--flame-2), var(--flame), var(--hot));
+  box-shadow: 0 12px 34px rgba(255,91,26,.4);
+}
+.builder-result {
+  background: radial-gradient(500px 300px at 80% 0, rgba(255,91,26,.12), transparent 60%), var(--card);
+  border: 1px solid var(--line); border-radius: 18px; padding: 28px; box-shadow: var(--shadow);
+}
+.br-pop { animation: brPop .45s cubic-bezier(.2,.9,.3,1.2); }
+@keyframes brPop { 0% { opacity: 0; transform: translateY(14px) scale(.98); } 100% { opacity: 1; transform: none; } }
+.br-head { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+.br-head .br-icon { font-size: 2.6rem; }
+.br-head h3 { font-size: 1.5rem; }
+.br-head p { color: var(--muted); font-size: .95rem; }
+.br-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.br-stat { background: var(--card-2); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+.br-stat span { display: block; color: var(--muted); font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 4px; }
+.br-stat b { font-size: 1.05rem; }
+.br-note { margin-top: 18px; padding: 14px 16px; border-radius: 12px; background: rgba(61,220,132,.1); border: 1px solid rgba(61,220,132,.3); color: var(--text); font-size: .95rem; }
+@media (max-width: 760px) {
+  .builder { grid-template-columns: 1fr; }
+  .builder-choices { flex-direction: row; }
+  .choice { flex: 1; flex-direction: column; text-align: center; gap: 6px; padding: 16px 10px; }
+  .br-stats { grid-template-columns: 1fr; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .flame-text, .hero h1, .hero p.lead, .hero__badges, .hero__cta,
   .btn--flame, #videoSound, .nav .brand .logo, .tl-dot { animation: none !important; }
