@@ -450,7 +450,85 @@
       Fotos: Unsplash (freie Nutzung). Ihr könnt sie jederzeit durch <b>eure eigenen Fotos</b> ersetzen — einfach in den Ordner <code>assets/fotos/</code> legen.
     </p>
 
-    <h3 style="text-align:center; margin-top:48px; font-size:clamp(1.4rem,3vw,2rem)">🎬 Unser Erklärvideo <span style="color:var(--muted); font-size:1rem; font-weight:600">(auf Play tippen — mit Ton!)</span></h3>
+    <h3 class="film-title">🎬 Erklärfilm: Vom Benzin bis zum CO₂</h3>
+    <p style="text-align:center; color:var(--muted); margin-top:6px">Auf ▶ tippen — der Film läuft mit Animation und Stimme, Schritt für Schritt.</p>
+
+    <div class="film reveal">
+      <div class="film-stage">
+        <svg id="filmSvg" viewBox="0 0 900 380" role="img" aria-label="Erklärfilm: Wie ein Motor funktioniert, von Benzin bis CO2">
+          <defs>
+            <linearGradient id="fTank" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb020"/><stop offset="1" stop-color="#ff5b1a"/></linearGradient>
+            <linearGradient id="fMetal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3a4a"/><stop offset="1" stop-color="#20202b"/></linearGradient>
+            <linearGradient id="fPistonGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c9ccd6"/><stop offset="1" stop-color="#7a7d8a"/></linearGradient>
+            <radialGradient id="fSpark" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff6c0"/><stop offset="1" stop-color="#ff8a1a" stop-opacity="0"/></radialGradient>
+          </defs>
+
+          <rect x="0" y="332" width="900" height="48" fill="#141420"/>
+
+          <g id="fp-tank" class="fpart">
+            <text x="100" y="150" text-anchor="middle" fill="#f4f4f8" font-size="18" font-weight="800">Benzin / E-Fuel</text>
+            <rect x="40" y="170" width="120" height="110" rx="12" fill="url(#fTank)" stroke="#d98a00" stroke-width="3"/>
+            <rect x="55" y="212" width="90" height="52" rx="6" fill="#1a0d05" opacity=".22"/>
+          </g>
+
+          <path id="fp-line" class="fpart" d="M160 195 L250 195 L332 120" fill="none" stroke="#ff5b1a" stroke-width="6" stroke-linecap="round"/>
+
+          <g id="fDrops">
+            <circle class="drop" cx="175" cy="195" r="5" fill="#ffd27a"/>
+            <circle class="drop" cx="175" cy="195" r="5" fill="#ffd27a"/>
+            <circle class="drop" cx="175" cy="195" r="5" fill="#ffd27a"/>
+          </g>
+
+          <g id="fp-cyl" class="fpart">
+            <rect x="300" y="90" width="160" height="200" rx="14" fill="url(#fMetal)" stroke="#44445a" stroke-width="3"/>
+            <rect x="330" y="105" width="100" height="150" rx="8" fill="#0c0c12"/>
+          </g>
+
+          <g id="fp-valves" class="fpart">
+            <rect x="345" y="78" width="10" height="34" rx="4" fill="#9aa"/>
+            <rect x="405" y="78" width="10" height="34" rx="4" fill="#9aa"/>
+          </g>
+
+          <g id="fp-spark" class="fpart">
+            <rect x="368" y="52" width="24" height="34" rx="4" fill="#d8d8e2"/>
+            <circle id="fSparkGlow" cx="380" cy="112" r="26" fill="url(#fSpark)" opacity="0"/>
+          </g>
+
+          <g id="fPistonG">
+            <rect id="fPiston" x="332" y="150" width="96" height="42" rx="6" fill="url(#fPistonGrad)" stroke="#5a5d6a"/>
+            <rect id="fRod" x="372" y="188" width="16" height="82" rx="6" fill="#8a8d9a"/>
+          </g>
+
+          <g id="fp-crank" class="fpart">
+            <circle cx="380" cy="290" r="40" fill="#2a2a38" stroke="#44445a" stroke-width="3"/>
+            <g id="fCrankRot"><circle cx="380" cy="262" r="9" fill="#ff5b1a"/></g>
+            <circle cx="380" cy="290" r="6" fill="#66697a"/>
+          </g>
+
+          <g id="fp-exhaust" class="fpart">
+            <path d="M455 165 L620 165 L620 250 L700 250" fill="none" stroke="#55586a" stroke-width="16" stroke-linecap="round"/>
+            <rect x="694" y="238" width="26" height="24" rx="4" fill="#3a3a4a"/>
+          </g>
+
+          <g id="fCo2" class="co2">
+            <g class="cloud"><circle cx="742" cy="250" r="17" fill="#8a8d9a"/><text x="742" y="255" text-anchor="middle" font-size="12" font-weight="800" fill="#12121a">CO₂</text></g>
+            <g class="cloud"><circle cx="742" cy="250" r="12" fill="#9aa"/></g>
+            <g class="cloud"><circle cx="742" cy="250" r="14" fill="#7a7d8a"/></g>
+          </g>
+        </svg>
+
+        <div class="film-caption" id="filmCaption">Drücke auf ▶ Erklärfilm starten.</div>
+        <div class="film-progress"><div id="filmBar"></div></div>
+      </div>
+
+      <div class="film-controls">
+        <button class="btn btn--flame" id="filmPlay">▶ Erklärfilm starten</button>
+        <button class="btn btn--ghost" id="filmReplay">↻ Von vorne</button>
+        <label class="film-voice"><input type="checkbox" id="filmVoice" checked> 🔊 mit Stimme</label>
+      </div>
+    </div>
+
+    <h3 style="text-align:center; margin-top:52px; font-size:clamp(1.2rem,3vw,1.6rem)">🎥 Unser eigenes Video</h3>
     <div class="video-block reveal">
       <video id="erklaervideo" controls playsinline preload="metadata" poster="assets/fotos/motor.jpg">
         <source src="assets/video/start.mp4" type="video/mp4">

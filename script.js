@@ -350,7 +350,7 @@
   speakBtns.forEach(function (btn) {
     btn._label = btn.textContent;
     btn.addEventListener("click", function () {
-      stopGuide(); stopReadAll();
+      stopGuide(); stopReadAll(); pauseFilm();
       if (currentBtn === btn) { if (synth) synth.cancel(); clearSpeakUI(); return; }
       if (synth) synth.cancel(); clearSpeakUI();
       if (!synth) { alert("Dein Browser kann leider nicht vorlesen. Auf iPad/iPhone in Safari klappt es am besten."); return; }
@@ -394,7 +394,7 @@
   if (guideBtn) guideBtn.addEventListener("click", function () {
     if (guiding) { stopGuide(); return; }
     if (!synth) { alert("Dein Browser kann leider nicht vorlesen. Auf iPad/iPhone in Safari klappt es am besten."); return; }
-    stopReadAll();
+    stopReadAll(); pauseFilm();
     if (currentBtn) { synth.cancel(); clearSpeakUI(); }
     guiding = true; guideBtn.textContent = "⏹ Stopp";
     runGuide(0);
@@ -495,4 +495,84 @@
     });
   });
   if (builderResult) renderFuel("efuel");
+
+  /* ============================================================
+     ERKLÄRFILM: animierter Motor von Benzin bis CO₂ (mit Stimme)
+     ============================================================ */
+  var filmSvg = document.getElementById("filmSvg");
+  var filmPlay = document.getElementById("filmPlay");
+  var filmReplay = document.getElementById("filmReplay");
+  var filmVoice = document.getElementById("filmVoice");
+  var filmCaption = document.getElementById("filmCaption");
+  var filmBar = document.getElementById("filmBar");
+  var fparts = filmSvg ? filmSvg.querySelectorAll(".fpart") : [];
+  var filmSteps = [
+    { part: "fp-tank", fx: [], cap: "1/6 · Alles beginnt im Tank: Benzin — oder klimaneutrales E-Fuel.", say: "Alles beginnt im Tank. Dort ist der Kraftstoff: Benzin, oder klimaneutrales E-Fuel." },
+    { part: "fp-line", fx: ["flowing"], cap: "2/6 · Der Kraftstoff wird als feiner Nebel in den Zylinder gespritzt und mit Luft gemischt.", say: "Der Kraftstoff wird als feiner Nebel in den Zylinder gespritzt und mit Luft gemischt." },
+    { part: "fp-cyl", fx: ["running"], cap: "3/6 · Der Kolben fährt nach oben und presst das Gemisch stark zusammen.", say: "Der Kolben fährt nach oben und presst das Gemisch stark zusammen." },
+    { part: "fp-spark", fx: ["running", "sparking"], cap: "4/6 · Die Zündkerze zündet — das Gemisch explodiert! 💥", say: "Die Zündkerze zündet. Das Gemisch explodiert!" },
+    { part: "fp-crank", fx: ["running"], cap: "5/6 · Die Explosion drückt den Kolben nach unten. Über Pleuel und Kurbelwelle drehen sich die Räder.", say: "Die Explosion drückt den Kolben nach unten. Über Pleuel und Kurbelwelle drehen sich die Räder." },
+    { part: "fp-exhaust", fx: ["running", "emitting"], cap: "6/6 · Die Abgase verlassen den Motor durch den Auspuff — dabei entsteht CO₂. Bei E-Fuel wurde dieses CO₂ vorher aus der Luft geholt: fast klimaneutral. ♻️", say: "Die Abgase verlassen den Motor durch den Auspuff. Dabei entsteht Kohlendioxid, also CO 2. Bei E-Fuel wurde dieses CO 2 vorher aus der Luft geholt. Deshalb ist es fast klimaneutral." }
+  ];
+  var filmIndex = 0, filmPlaying = false, filmTimer = null;
+
+  function applyFilmStep(i) {
+    var s = filmSteps[i]; if (!s || !filmSvg) return;
+    filmSvg.classList.add("dimmed");
+    fparts.forEach(function (p) { p.classList.toggle("hl", p.id === s.part); });
+    ["flowing", "sparking", "emitting"].forEach(function (c) { filmSvg.classList.toggle(c, s.fx.indexOf(c) >= 0); });
+    if (s.fx.indexOf("running") >= 0) filmSvg.classList.add("running");
+    if (filmCaption) filmCaption.textContent = s.cap;
+    if (filmBar) filmBar.style.width = ((i + 1) / filmSteps.length * 100) + "%";
+  }
+  function endFilm() {
+    filmPlaying = false; filmIndex = filmSteps.length;
+    if (filmTimer) { clearTimeout(filmTimer); filmTimer = null; }
+    if (filmSvg) filmSvg.classList.remove("dimmed", "flowing", "sparking");
+    if (filmPlay) filmPlay.textContent = "▶ Nochmal abspielen";
+  }
+  function filmNext(i) {
+    if (!filmPlaying) return;
+    if (i >= filmSteps.length) { endFilm(); return; }
+    filmIndex = i; applyFilmStep(i);
+    var s = filmSteps[i];
+    if (filmVoice && filmVoice.checked && synth) {
+      speak(s.say, function () { if (filmPlaying) filmTimer = setTimeout(function () { filmNext(i + 1); }, 500); });
+    } else {
+      filmTimer = setTimeout(function () { if (filmPlaying) filmNext(i + 1); }, 3800);
+    }
+  }
+  function startFilm(from) {
+    if (!filmSvg) return;
+    stopGuide(); stopReadAll(); if (currentBtn) { if (synth) synth.cancel(); clearSpeakUI(); }
+    if (synth) { try { synth.resume(); } catch (e) {} synth.cancel(); }
+    filmPlaying = true;
+    if (filmPlay) filmPlay.textContent = "⏸ Pause";
+    filmNext(from || 0);
+  }
+  function pauseFilm() {
+    if (!filmPlaying) return;
+    filmPlaying = false;
+    if (filmTimer) { clearTimeout(filmTimer); filmTimer = null; }
+    if (synth) synth.cancel();
+    if (filmPlay) filmPlay.textContent = "▶ Weiter";
+  }
+  function stopFilm() {
+    filmPlaying = false;
+    if (filmTimer) { clearTimeout(filmTimer); filmTimer = null; }
+    if (filmSvg) filmSvg.classList.remove("dimmed", "flowing", "sparking", "emitting", "running");
+    fparts.forEach(function (p) { p.classList.remove("hl"); });
+    if (filmPlay) filmPlay.textContent = "▶ Erklärfilm starten";
+  }
+  if (filmPlay) filmPlay.addEventListener("click", function () {
+    if (filmPlaying) pauseFilm();
+    else startFilm(filmIndex >= filmSteps.length ? 0 : filmIndex);
+  });
+  if (filmReplay) filmReplay.addEventListener("click", function () {
+    stopFilm(); filmIndex = 0;
+    if (filmBar) filmBar.style.width = "0%";
+    if (filmCaption) filmCaption.textContent = "Drücke auf ▶ Erklärfilm starten.";
+    startFilm(0);
+  });
+  if (filmVoice) filmVoice.addEventListener("change", function () { if (!filmVoice.checked && synth) synth.cancel(); });
 })();
