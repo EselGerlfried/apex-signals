@@ -660,6 +660,66 @@ canvas#sparks {
   .br-stats { grid-template-columns: 1fr; }
 }
 
+/* ============================================================
+   ERKLÄRFILM (animierter Motor: Benzin -> CO2)
+   ============================================================ */
+.film-title { text-align: center; margin-top: 52px; font-size: clamp(1.4rem, 3vw, 2rem); }
+.film { margin-top: 20px; }
+.film-stage {
+  position: relative; padding: 18px;
+  background: radial-gradient(700px 320px at 50% 0, rgba(255,91,26,.12), transparent 60%), var(--card);
+  border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow);
+}
+.film-stage svg { width: 100%; height: auto; display: block; }
+.film-caption {
+  margin-top: 14px; min-height: 3.4em; text-align: center; font-size: 1.08rem;
+  color: var(--text); font-weight: 600; line-height: 1.4;
+}
+.film-progress { height: 6px; background: var(--card-2); border-radius: 4px; overflow: hidden; margin-top: 6px; }
+.film-progress #filmBar { height: 100%; width: 0; background: linear-gradient(90deg, var(--hot), var(--flame), var(--flame-2)); transition: width .4s ease; }
+.film-controls { display: flex; gap: 12px; justify-content: center; align-items: center; flex-wrap: wrap; margin-top: 18px; }
+.film-voice { display: flex; align-items: center; gap: 8px; color: var(--muted); font-weight: 700; cursor: pointer; user-select: none; }
+.film-voice input { width: 18px; height: 18px; accent-color: var(--flame); }
+
+/* Teile hervorheben */
+.fpart { transition: opacity .3s, filter .3s; }
+#filmSvg.dimmed .fpart { opacity: .28; }
+#filmSvg.dimmed .fpart.hl { opacity: 1; filter: drop-shadow(0 0 12px var(--flame)); }
+
+/* Kolben läuft */
+#fPistonG { transition: none; }
+#filmSvg.running #fPistonG { animation: fPist .7s ease-in-out infinite; }
+@keyframes fPist { 0%,100% { transform: translateY(0); } 50% { transform: translateY(30px); } }
+
+/* Kurbel dreht */
+#fCrankRot { transform-box: view-box; transform-origin: 380px 290px; }
+#filmSvg.running #fCrankRot { animation: fSpin .7s linear infinite; }
+@keyframes fSpin { to { transform: rotate(360deg); } }
+
+/* Kraftstoff-Tropfen fließen */
+.drop { opacity: 0; }
+#filmSvg.flowing .drop { animation: fFlow 1.2s linear infinite; }
+#filmSvg.flowing .drop:nth-child(2) { animation-delay: .4s; }
+#filmSvg.flowing .drop:nth-child(3) { animation-delay: .8s; }
+@keyframes fFlow { 0% { opacity: 0; transform: translate(0,0); } 12% { opacity: 1; } 100% { opacity: 0; transform: translate(172px,-74px); } }
+
+/* Zündfunke */
+#fSparkGlow { transform-box: fill-box; transform-origin: center; }
+#filmSvg.sparking #fSparkGlow { animation: fFlash .32s ease-out 4; }
+@keyframes fFlash { 0% { opacity: 0; transform: scale(.5); } 45% { opacity: 1; transform: scale(1.25); } 100% { opacity: 0; transform: scale(1.4); } }
+
+/* CO2-Wolken */
+.co2 .cloud { opacity: 0; transform-box: fill-box; transform-origin: center; }
+#filmSvg.emitting .co2 .cloud { animation: fCo2 2.4s ease-out infinite; }
+#filmSvg.emitting .co2 .cloud:nth-child(2) { animation-delay: .8s; }
+#filmSvg.emitting .co2 .cloud:nth-child(3) { animation-delay: 1.6s; }
+@keyframes fCo2 { 0% { opacity: 0; transform: translate(0,0) scale(.6); } 20% { opacity: .9; } 100% { opacity: 0; transform: translate(120px,-64px) scale(1.6); } }
+
+@media (prefers-reduced-motion: reduce) {
+  #filmSvg.running #fPistonG, #filmSvg.running #fCrankRot,
+  #filmSvg.flowing .drop, #filmSvg.sparking #fSparkGlow, #filmSvg.emitting .co2 .cloud { animation: none !important; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .flame-text, .hero h1, .hero p.lead, .hero__badges, .hero__cta,
   .btn--flame, #videoSound, .nav .brand .logo, .tl-dot { animation: none !important; }
